@@ -1,0 +1,229 @@
+#Persistent
+
+global Epoch = 120000
+global Title = "notitle"
+
+xpos = 0
+ypos = 0
+
+xpos2 = 0
+ypos2 = 0
+
+bool = true
+
+global isOn = true
+global isRunning = false
+
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+CTRL + ESC to turn off script
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+
+SetTimer, toolTip, 150
+
+setWindow()
+{
+	WinGetTitle, Title, A
+	MsgBox, The active window is "%Title%".
+}
+
+~Numpad9::
+	setWindow()
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+return
+
+showTooltip(isOn)
+{
+	if(!isOn)
+	{
+		SetTimer, toolTip, 150
+		return
+	}
+	else if(isOn)
+	{
+		SetTimer, toolTip, OFF
+		SetTimer, RemoveToolTip, -150
+		return
+	}
+}
+
+~Numpad7::
+	InputBox, Epoch, Time Interval, Please enter a new time in milliseconds. (default is 120000 = 2min), , 512, 256
+	if ErrorLevel
+		MsgBox, CANCEL was pressed.
+	else
+	{
+		MsgBox, You entered "%Epoch%"
+	}
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+return
+
+~Numpad3::
+	if(isOn)
+	{
+		showTooltip(true)
+		isOn:= false
+		
+	}
+	else if(!isOn)
+	{
+		showTooltip(false)
+		isOn:= true
+	}
+return
+
+~Numpad0::
+	if (xpos AND ypos AND xpos2 AND ypos2 AND bool)
+	{
+		if WinExist(Title)
+		{
+		WinActivate
+			Sleep, 100
+			bool:= 0
+			SetTimer, autoSearch, %Epoch%
+			isRunning:= true
+			MouseClick, left, xpos, ypos
+		}
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+	}
+	else
+	{
+		bool:= 1
+		settimer, autoSearch, OFF
+		isRunning:= false
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+	}
+return
+
+~Numpad1::
+	if WinExist(Title)
+	{
+	WinActivate
+		CoordMode, Mouse, Relative
+		MouseGetPos, xpos, ypos
+	}
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+return
+
+~Numpad2::
+	if WinExist(Title)
+	{
+		WinActivate
+		WinRestore, Title
+		CoordMode, Mouse, Relative
+		MouseGetPos, xpos2, ypos2
+	}
+Help =
+(
+Your 1st Button Position X: %xpos% Y: %ypos%
+Your 2nd Button Position X: %xpos2% Y: %ypos2%
+To SET start searching postion hit Numpad[1]
+To SET cancel searching position hit Numpad[2]
+To Toggle on/off Click func hit Numpad[0]
+To HIDE Tooltip hit Numpad[3]
+The Click Function is running: %isRunning%
+Epoch between clicks %Epoch%ms
+Targeted Window %Title%
+!IMPORTANT when playing you can suspent script so it doesn't run during game
+Hit Ctrl+Alt+S to SUSPEND (don't forget to press Num[3] to hide the tooltip)
+)
+return
+
+autoSearch:
+	if WinExist(Title)
+	{
+		WinActivate
+		WinRestore, Title
+		MouseClick, left, xpos2, ypos2
+		MouseClick, left, xpos, ypos
+	}
+return
+
+toolTip:
+	Mousegetpos, x, y
+	ToolTip,%Help%, (x + 20), (y + 20), 1
+return
+
+RemoveToolTip:
+	toolTip
+return
+
+^!s::Suspend  ; Ctrl+Alt+S
+
+^Esc::ExitApp
